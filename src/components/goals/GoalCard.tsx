@@ -6,6 +6,7 @@ import type { GoalRow } from '@/lib/database.types'
 interface GoalCardProps {
   goal: GoalRow
   cloned?: boolean
+  cloning?: boolean
   readOnly?: boolean
   onToggle?: (goal: GoalRow) => void
   onEdit?: (goal: GoalRow) => void
@@ -22,6 +23,7 @@ function formatConquered(completedAt: string | null): string {
 export function GoalCard({
   goal,
   cloned = false,
+  cloning = false,
   readOnly = false,
   onToggle,
   onEdit,
@@ -92,17 +94,22 @@ export function GoalCard({
         <div className={`flex items-center gap-2 ${readOnly ? '' : 'pl-10'} md:pl-0`}>
           {onClone && (
             <button
-              aria-label={cloned ? 'Added to your list' : 'Clone goal'}
+              aria-label={cloned ? 'Already in your list' : 'Clone goal'}
               className={
                 cloned
                   ? 'cursor-default rounded-md p-1.5 text-success-olive dark:text-emerald-glow'
                   : 'cursor-pointer rounded-md p-1.5 text-on-surface-variant transition-colors hover:bg-surface-container-high hover:text-on-surface'
               }
-              disabled={cloned}
+              disabled={cloned || cloning}
               onClick={() => onClone(goal)}
+              title={cloned ? 'Already in your list' : cloning ? 'Cloning...' : 'Add to your bucket list'}
               type="button"
             >
-              <Icon className="text-[18px]" name={cloned ? 'check' : 'content_copy'} />
+              {cloning && !cloned ? (
+                <Icon className="animate-spin text-[18px]" name="progress_activity" />
+              ) : (
+                <Icon className="text-[18px]" name={cloned ? 'check' : 'content_copy'} />
+              )}
             </button>
           )}
           {!readOnly && onEdit && (

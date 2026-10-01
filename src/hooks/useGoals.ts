@@ -8,6 +8,7 @@ export function useGoals() {
   const [goals, setGoals] = useState<GoalRow[]>([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
+  const [cloning, setCloning] = useState(false)
 
   useEffect(() => {
     if (!session) return
@@ -74,29 +75,50 @@ export function useGoals() {
     })
   }
 
-  const cloneGoal = async (goal: GoalRow, sourceUsername: string) => {
-    if (!session) return null
-    const { data, error: err } = await supabase
-      .from('goals')
-      .insert({
-        title: goal.title,
-        description: goal.description ?? '',
-        category: goal.category,
-        priority: goal.priority,
-        progress: 0,
-        target_date: goal.target_date ?? '',
-        status: 'active',
-        owner_id: session.user.id,
-        cloned_from: sourceUsername,
-      })
-      .select()
-      .single()
-    if (err) {
-      setError(err.message)
-      return null
+  const cloneGoal = async (goal: GoalRow, sourceUsername: string): Promise<'ok' | 'duplicate' | 'error'> => {
+    if (!session || cloning) return 'error'
+    setCloning(true)
+    try {
+      const { data: existing } = await supabase
+        .from('goals')
+        .select('id')
+        .eq('owner_id', session.user.id)
+        .eq('cloned_from', sourceUsername)
+        .eq('title', goal.title)
+        .maybeSingle()
+      if (existing) return 'duplicate'
+      const { error: err } = await supabase
+        .from('goals')
+        .insert({
+          title: goal.title,
+          description: goal.description ?? '',
+          category: goal.category,
+          priority: goal.priority,
+          progress: 0,
+          target_date: goal.target_date ?? '',
+          status: 'active',
+          owner_id: session.user.id,
+          cloned_from: sourceUsername,
+        })
+      if (err) {
+        setError(err.message)
+        return 'error'
+      }
+      return 'ok'
+    } finally {
+      setCloning(false)
     }
-    return data as GoalRow
   }
 
-  return { goals: session ? goals : [], loading, error, addGoal, updateGoal, deleteGoal, toggleStatus, cloneGoal }
+  return {
+    goals: session ? goals : [],
+    loading,
+    error,
+    cloning,
+    addGoal,
+    updateGoal,
+    deleteGoal,
+    toggleStatus,
+    cloneGoal,
+  }
 }

@@ -19,7 +19,7 @@ interface PublicListProps {
 
 export default function PublicList({ username }: PublicListProps) {
   const { session } = useAuth()
-  const { cloneGoal, error: cloneError } = useGoals()
+  const { cloneGoal, cloning, error: cloneError } = useGoals()
   const { profile, goals, loading, error } = usePublicList(username)
   const [clonedIds, setClonedIds] = useState<Set<string>>(new Set())
 
@@ -30,8 +30,8 @@ export default function PublicList({ username }: PublicListProps) {
 
   const handleClone = async (goal: GoalRow) => {
     if (!profile) return
-    const created = await cloneGoal(goal, profile.username)
-    if (created) {
+    const result = await cloneGoal(goal, profile.username)
+    if (result === 'ok' || result === 'duplicate') {
       setClonedIds((prev) => new Set(prev).add(goal.id))
     }
   }
@@ -144,6 +144,7 @@ export default function PublicList({ username }: PublicListProps) {
                   <div className="flex flex-col gap-4">
                     {activeGoals.map((goal) => (
                       <GoalCard
+                        cloning={cloning}
                         cloned={clonedIds.has(goal.id)}
                         goal={goal}
                         key={goal.id}
@@ -172,6 +173,7 @@ export default function PublicList({ username }: PublicListProps) {
                   <div className="flex flex-col gap-4">
                     {completedGoals.map((goal) => (
                       <GoalCard
+                        cloning={cloning}
                         cloned={clonedIds.has(goal.id)}
                         goal={goal}
                         key={goal.id}
