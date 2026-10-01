@@ -55,6 +55,17 @@ export function GoalCard({
               ) : (
                 <CategoryChip label={CATEGORY_LABELS[goal.category]} />
               )}
+              {goal.visibility === 'public' ? (
+                <Badge tone="amber">
+                  <Icon className="text-[12px]" name="public" />
+                  Public
+                </Badge>
+              ) : (
+                <Badge tone="neutral">
+                  <Icon className="text-[12px]" name="lock" />
+                  Private
+                </Badge>
+              )}
               {goal.is_collaborative && (
                 <Badge tone="neutral">
                   <Icon className="text-[12px]" name="group" />

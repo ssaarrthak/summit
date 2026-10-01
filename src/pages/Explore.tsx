@@ -23,7 +23,7 @@ export default function Explore() {
               Public Bucket Lists
             </h1>
             <p className="text-xl font-normal leading-7 text-on-surface-variant">
-              Browse what others are conquering — open any list and clone the dreams that call to you.
+              Browse what others are conquering — open any list and clone the public goals that call to you.
             </p>
           </div>
 
@@ -39,21 +39,23 @@ export default function Explore() {
                 progress_activity
               </span>
             </div>
-          ) : profiles.length === 0 ? (
+          ) : profiles.filter((p) => (p.goals?.[0]?.count ?? 0) > 0).length === 0 ? (
             <div className="rounded-xl border border-dashed border-outline-variant/60 p-12 text-center">
               <Icon className="text-3xl text-on-surface-variant" name="explore" />
               <h2 className="mt-3 text-2xl font-semibold leading-8 tracking-tight text-on-surface">
-                No public lists yet.
+                No public goals yet.
               </h2>
               <p className="mt-1 text-sm text-on-surface-variant">
-                Be the first — flip your list to public from your profile menu in the top right.
+                Be the first — mark one of your goals Public from its edit menu.
               </p>
             </div>
           ) : (
             <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
-              {profiles.map((p) => (
-                <ExploreCard key={p.id} profile={p} />
-              ))}
+              {profiles
+                .filter((p) => (p.goals?.[0]?.count ?? 0) > 0)
+                .map((p) => (
+                  <ExploreCard key={p.id} profile={p} />
+                ))}
             </div>
           )}
         </div>
@@ -85,7 +87,7 @@ function ExploreCard({ profile }: { profile: PublicProfileWithCount }) {
       </div>
       <div className="mt-4 flex items-center justify-between border-t border-outline-variant/50 pt-4">
         <span className="text-xs font-medium leading-4 text-on-surface-variant">
-          {count} dream{count === 1 ? '' : 's'} logged
+          {count} public dream{count === 1 ? '' : 's'}
         </span>
         <span className="flex items-center gap-1 text-xs font-semibold leading-4 text-primary">
           View list

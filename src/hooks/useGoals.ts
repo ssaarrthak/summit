@@ -98,6 +98,7 @@ export function useGoals() {
           progress: 0,
           target_date: goal.target_date ?? '',
           status: 'active',
+          visibility: 'private',
           owner_id: session.user.id,
           cloned_from: sourceUsername,
         })

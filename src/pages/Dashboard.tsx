@@ -223,6 +223,7 @@ export default function Dashboard() {
                 priority: editingGoal.priority,
                 progress: editingGoal.progress,
                 target_date: editingGoal.target_date ?? '',
+                visibility: editingGoal.visibility,
               }
             : null
         }

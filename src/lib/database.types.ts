@@ -1,6 +1,7 @@
 export type GoalCategory = 'TRAVEL' | 'CREATIVE' | 'SKILLS' | 'ADRENALINE'
 export type GoalPriority = 'high' | 'normal'
 export type GoalStatus = 'active' | 'completed'
+export type GoalVisibility = 'private' | 'public'
 export type CollaborationStatus = 'pending' | 'accepted'
 
 export interface Profile {
@@ -8,8 +9,17 @@ export interface Profile {
   username: string
   display_name: string | null
   avatar_url: string | null
-  is_public: boolean
   created_at: string
+}
+
+export interface GoalFormValues {
+  title: string
+  description: string
+  category: GoalCategory
+  priority: GoalPriority
+  progress: number
+  target_date: string
+  visibility: GoalVisibility
 }
 
 export interface GoalRow {
@@ -25,17 +35,9 @@ export interface GoalRow {
   completed_at: string | null
   is_collaborative: boolean
   cloned_from: string | null
+  visibility: GoalVisibility
   created_at: string
   imageUrl?: string
-}
-
-export interface GoalFormValues {
-  title: string
-  description: string
-  category: GoalCategory
-  priority: GoalPriority
-  progress: number
-  target_date: string
 }
 
 export interface GoalCollaboratorRow {

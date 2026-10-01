@@ -17,22 +17,17 @@ interface NavBarProps {
 }
 
 export function NavBar({ totalCount, completedCount }: NavBarProps) {
-  const { session, profile, signOut, updateProfile } = useAuth()
+  const { session, profile, signOut } = useAuth()
   const { theme, toggleTheme } = useTheme()
   const [menuOpen, setMenuOpen] = useState(false)
   const percent = totalCount > 0 ? Math.round((completedCount / totalCount) * 100) : 0
 
   const initial = (profile?.display_name?.[0] ?? profile?.username?.[0] ?? 'S').toUpperCase()
   const displayName = profile?.display_name ?? profile?.username ?? 'Summit User'
-  const isPublic = profile?.is_public ?? false
 
   const handleSignOut = async () => {
     setMenuOpen(false)
     await signOut()
-  }
-
-  const handleTogglePublic = async () => {
-    await updateProfile({ is_public: !isPublic })
   }
 
   return (
@@ -108,35 +103,6 @@ export function NavBar({ totalCount, completedCount }: NavBarProps) {
                   <p className="truncate text-xs leading-4 text-on-surface-variant">@{profile?.username ?? 'unknown'}</p>
                 </div>
                 <div className="my-1 h-px bg-outline-variant/50" />
-                {profile && (
-                  <>
-                    <div className="flex items-center justify-between gap-2 px-3 py-2">
-                      <div className="flex min-w-0 flex-col">
-                        <span className="text-sm font-medium leading-5 text-on-surface">Public list</span>
-                        <span className="truncate text-[11px] leading-4 text-on-surface-variant">
-                          {isPublic ? `Visible at /u/${profile.username}` : 'Others can see your goals'}
-                        </span>
-                      </div>
-                      <button
-                        aria-checked={isPublic}
-                        aria-label="Toggle public list"
-                        className={`relative h-5 w-9 flex-shrink-0 cursor-pointer rounded-full transition-colors focus:outline-none ${
-                          isPublic ? 'bg-primary-container' : 'bg-surface-container-highest'
-                        }`}
-                        onClick={handleTogglePublic}
-                        role="switch"
-                        type="button"
-                      >
-                        <span
-                          className={`absolute left-0.5 top-0.5 h-4 w-4 rounded-full transition-transform ${
-                            isPublic ? 'translate-x-4 bg-canvas-cream' : 'bg-surface-container-lowest'
-                          }`}
-                        />
-                      </button>
-                    </div>
-                    <div className="my-1 h-px bg-outline-variant/50" />
-                  </>
-                )}
                 <button
                   className="w-full cursor-pointer rounded-lg px-3 py-2 text-left text-sm text-error transition-colors hover:bg-error-container/50"
                   onClick={handleSignOut}

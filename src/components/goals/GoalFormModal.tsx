@@ -2,7 +2,7 @@ import { useState } from 'react'
 import type { FormEvent } from 'react'
 import { Button, Input, Modal, Select, Textarea } from '@/components/ui'
 import { CATEGORY_LABELS } from '@/lib/categories'
-import type { GoalCategory, GoalFormValues, GoalPriority } from '@/lib/database.types'
+import type { GoalCategory, GoalFormValues, GoalPriority, GoalVisibility } from '@/lib/database.types'
 
 interface GoalFormModalProps {
   open: boolean
@@ -19,6 +19,7 @@ const emptyForm: GoalFormValues = {
   priority: 'normal',
   progress: 0,
   target_date: '',
+  visibility: 'private',
 }
 
 const labelClasses = 'font-inter text-xs font-semibold uppercase tracking-wider text-on-surface-variant'
@@ -107,6 +108,35 @@ export function GoalFormModal({ open, onClose, onSubmit, initial, mode }: GoalFo
             <option value="normal">Normal</option>
             <option value="high">High</option>
           </Select>
+        </div>
+
+        <div className="flex items-center justify-between gap-2 rounded-lg border border-outline-variant bg-surface-container-low px-4 py-3 dark:bg-surface-container-lowest">
+          <div className="flex min-w-0 flex-col">
+            <span className="text-sm font-medium leading-5 text-on-surface">Public goal</span>
+            <span className="text-[11px] leading-4 text-on-surface-variant">
+              {values.visibility === 'public'
+                ? 'Others can see and clone this goal from your list'
+                : 'Only you can see this goal'}
+            </span>
+          </div>
+          <button
+            aria-checked={values.visibility === 'public'}
+            aria-label="Toggle public goal"
+            className={`relative h-5 w-9 flex-shrink-0 cursor-pointer rounded-full transition-colors focus:outline-none ${
+              values.visibility === 'public' ? 'bg-primary-container' : 'bg-surface-container-highest'
+            }`}
+            onClick={() =>
+              setValues((v) => ({ ...v, visibility: (v.visibility === 'public' ? 'private' : 'public') as GoalVisibility }))
+            }
+            role="switch"
+            type="button"
+          >
+            <span
+              className={`absolute left-0.5 top-0.5 h-4 w-4 rounded-full transition-transform ${
+                values.visibility === 'public' ? 'translate-x-4 bg-canvas-cream' : 'bg-surface-container-lowest'
+              }`}
+            />
+          </button>
         </div>
 
         <div className="flex flex-col gap-1.5">
