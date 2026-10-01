@@ -1,0 +1,22 @@
+@import 'tailwindcss';
+@import './styles/tokens.css';
+
+@layer base {
+  html {
+    font-family: var(--font-sans);
+  }
+
+  body {
+    margin: 0;
+    padding: 0;
+    background-color: var(--background);
+    color: var(--on-surface);
+    -webkit-font-smoothing: antialiased;
+    overscroll-behavior: none;
+  }
+
+  ::selection {
+    background-color: var(--primary-container);
+    color: var(--background);
+  }
+}

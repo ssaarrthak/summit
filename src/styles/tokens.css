@@ -1,0 +1,166 @@
+/*
+ * Summit design tokens
+ * Light: "Warm Editorial Solitude" / Dark: "Warm Obsidian Expedition"
+ *
+ * Semantic tokens are defined as raw CSS variables on :root (light) and
+ * .dark, then mapped into Tailwind's @theme inline so utilities like
+ * bg-surface, text-on-surface, border-outline-variant respond to the
+ * theme class at runtime.
+ */
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+/* ------------------------------------------------------------------ */
+/* Light theme — Warm Editorial Solitude                               */
+/* ------------------------------------------------------------------ */
+:root {
+  --background: #fcf9f4;
+  --on-background: #1c1c19;
+  --surface: #fcf9f4;
+  --surface-dim: #dcdad5;
+  --surface-bright: #fcf9f4;
+  --surface-container-lowest: #ffffff;
+  --surface-container-low: #f6f3ee;
+  --surface-container: #f0ede9;
+  --surface-container-high: #ebe8e3;
+  --surface-container-highest: #e5e2dd;
+  --on-surface: #1c1c19;
+  --on-surface-variant: #4d453f;
+  --inverse-surface: #31302d;
+  --inverse-on-surface: #f3f0eb;
+  --outline: #7f756e;
+  --outline-variant: #d0c4bc;
+  --surface-tint: #695c51;
+  --primary: #140b05;
+  --on-primary: #ffffff;
+  --primary-container: #2b2118;
+  --on-primary-container: #97877b;
+  --inverse-primary: #d5c3b5;
+  --secondary: #755843;
+  --on-secondary: #ffffff;
+  --secondary-container: #ffd8bd;
+  --on-secondary-container: #7a5d47;
+  --tertiary: #140b01;
+  --on-tertiary: #ffffff;
+  --tertiary-container: #2b210f;
+  --on-tertiary-container: #98886f;
+  --error: #ba1a1a;
+  --on-error: #ffffff;
+  --error-container: #ffdad6;
+  --on-error-container: #93000a;
+
+  --shad-rest: 0 1px 3px rgba(43, 33, 24, 0.04), 0 6px 16px -4px rgba(43, 33, 24, 0.03);
+  --shad-popover: 0 4px 12px rgba(43, 33, 24, 0.06), 0 16px 32px -8px rgba(43, 33, 24, 0.08);
+  --shad-modal: 0 24px 48px -12px rgba(43, 33, 24, 0.16);
+}
+
+/* ------------------------------------------------------------------ */
+/* Dark theme — Warm Obsidian Expedition                               */
+/* ------------------------------------------------------------------ */
+.dark {
+  --background: #17120f;
+  --on-background: #ece0db;
+  --surface: #17120f;
+  --surface-dim: #17120f;
+  --surface-bright: #3e3834;
+  --surface-container-lowest: #120d0a;
+  --surface-container-low: #201a17;
+  --surface-container: #241e1b;
+  --surface-container-high: #2f2925;
+  --surface-container-highest: #3a3330;
+  --on-surface: #ece0db;
+  --on-surface-variant: #d2c4b6;
+  --inverse-surface: #ece0db;
+  --inverse-on-surface: #352f2c;
+  --outline: #9b8f82;
+  --outline-variant: #4e453b;
+  --surface-tint: #e8c08b;
+  --primary: #ffd6a1;
+  --on-primary: #442b04;
+  --primary-container: #e2ba86;
+  --on-primary-container: #66491f;
+  --inverse-primary: #77592d;
+  --secondary: #c8c6c2;
+  --on-secondary: #31302d;
+  --secondary-container: #474743;
+  --on-secondary-container: #b7b5b0;
+  --tertiary: #fbd6b7;
+  --on-tertiary: #422c17;
+  --tertiary-container: #deba9d;
+  --on-tertiary-container: #634932;
+  --error: #ffb4ab;
+  --on-error: #690005;
+  --error-container: #93000a;
+  --on-error-container: #ffdad6;
+
+  --shad-rest: 0 8px 32px -4px rgba(226, 186, 134, 0.08);
+  --shad-popover: 0 4px 20px 0 rgba(212, 163, 115, 0.25);
+  --shad-modal: 0 4px 16px rgba(226, 186, 134, 0.2);
+}
+
+/* ------------------------------------------------------------------ */
+/* Theme-mapped utilities (inline: utilities reference the raw vars)   */
+/* ------------------------------------------------------------------ */
+@theme inline {
+  --color-background: var(--background);
+  --color-on-background: var(--on-background);
+  --color-surface: var(--surface);
+  --color-surface-dim: var(--surface-dim);
+  --color-surface-bright: var(--surface-bright);
+  --color-surface-container-lowest: var(--surface-container-lowest);
+  --color-surface-container-low: var(--surface-container-low);
+  --color-surface-container: var(--surface-container);
+  --color-surface-container-high: var(--surface-container-high);
+  --color-surface-container-highest: var(--surface-container-highest);
+  --color-on-surface: var(--on-surface);
+  --color-on-surface-variant: var(--on-surface-variant);
+  --color-inverse-surface: var(--inverse-surface);
+  --color-inverse-on-surface: var(--inverse-on-surface);
+  --color-outline: var(--outline);
+  --color-outline-variant: var(--outline-variant);
+  --color-surface-tint: var(--surface-tint);
+  --color-primary: var(--primary);
+  --color-on-primary: var(--on-primary);
+  --color-primary-container: var(--primary-container);
+  --color-on-primary-container: var(--on-primary-container);
+  --color-inverse-primary: var(--inverse-primary);
+  --color-secondary: var(--secondary);
+  --color-on-secondary: var(--on-secondary);
+  --color-secondary-container: var(--secondary-container);
+  --color-on-secondary-container: var(--on-secondary-container);
+  --color-tertiary: var(--tertiary);
+  --color-on-tertiary: var(--on-tertiary);
+  --color-tertiary-container: var(--tertiary-container);
+  --color-on-tertiary-container: var(--on-tertiary-container);
+  --color-error: var(--error);
+  --color-on-error: var(--on-error);
+  --color-error-container: var(--error-container);
+  --color-on-error-container: var(--on-error-container);
+
+  --shadow-rest: var(--shad-rest);
+  --shadow-popover: var(--shad-popover);
+  --shadow-modal: var(--shad-modal);
+}
+
+/* ------------------------------------------------------------------ */
+/* Fixed tokens (identical across both themes)                         */
+/* ------------------------------------------------------------------ */
+@theme {
+  --color-canvas-cream: #faf7f2;
+  --color-espresso-deep: #2b2118;
+  --color-walnut: #6b4f3a;
+  --color-sandstone: #c9b79c;
+  --color-sandstone-soft: #f2ece1;
+  --color-amber-deep: #d4a373;
+  --color-success-olive: #5e6948;
+  --color-accent-rust: #9e472a;
+  --color-emerald-glow: #34d399;
+
+  --font-sans: 'Plus Jakarta Sans', ui-sans-serif, system-ui, sans-serif;
+  --font-inter: 'Inter', ui-sans-serif, system-ui, sans-serif;
+
+  --radius-sm: 0.25rem;
+  --radius-md: 0.75rem;
+  --radius-lg: 1rem;
+  --radius-xl: 1.5rem;
+}
