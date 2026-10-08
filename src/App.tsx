@@ -5,6 +5,7 @@ import { FullScreenLoader } from '@/components/ui'
 import { useAuth } from '@/hooks/useAuth'
 import Dashboard from '@/pages/Dashboard'
 import Explore from '@/pages/Explore'
+import Friends from '@/pages/Friends'
 import PublicList from '@/pages/PublicList'
 import Welcome from '@/pages/Welcome'
 
@@ -58,6 +59,14 @@ export default function App() {
         path="/explore"
       />
       <Route element={<PublicListPage />} path="/u/:username" />
+      <Route
+        element={
+          <RequireAuth>
+            <Friends />
+          </RequireAuth>
+        }
+        path="/friends"
+      />
       <Route
         element={
           <RequireAuth>
