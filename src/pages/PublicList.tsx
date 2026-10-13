@@ -26,7 +26,7 @@ export default function PublicList({ username }: PublicListProps) {
   const isOwnView = profile?.id === session?.user.id
   const activeGoals = goals.filter((g) => g.status === 'active')
   const completedGoals = goals.filter((g) => g.status === 'completed')
-  const isPrivate = profile !== null && !profile.is_public && !isOwnView
+  const noPublicGoals = !isOwnView && goals.length === 0
 
   const handleClone = async (goal: GoalRow) => {
     if (!profile) return
@@ -65,14 +65,14 @@ export default function PublicList({ username }: PublicListProps) {
                 <Icon className="text-[14px]" name="arrow_forward" />
               </Link>
             </div>
-          ) : isPrivate ? (
+          ) : noPublicGoals ? (
             <div className="rounded-xl border border-dashed border-outline-variant/60 p-12 text-center">
               <Icon className="text-3xl text-on-surface-variant" name="lock" />
               <h1 className="mt-3 text-2xl font-semibold leading-8 tracking-tight text-on-surface">
-                This bucket list is private.
+                No public goals yet.
               </h1>
               <p className="mt-1 text-sm text-on-surface-variant">
-                The explorer has kept their summits to themselves.
+                @{username} hasn't made any goals public — come back later or explore other lists.
               </p>
               <Link
                 className="mt-6 inline-flex items-center gap-1 text-sm font-semibold text-primary transition-colors hover:text-on-surface"
@@ -93,7 +93,7 @@ export default function PublicList({ username }: PublicListProps) {
                     <div className="flex flex-col gap-1">
                       <Badge className="mb-1 w-fit" tone="amber">
                         <span className="h-1.5 w-1.5 rounded-full bg-primary-container shadow-sm shadow-primary-container/60" />
-                        Public Bucket List
+                        Public Goals
                       </Badge>
                       <h1 className="text-[34px] font-bold leading-[42px] tracking-tight text-on-surface">
                         {profile.display_name ?? profile.username}
@@ -124,7 +124,8 @@ export default function PublicList({ username }: PublicListProps) {
                 {isOwnView && (
                   <div className="mb-8 flex items-center gap-2 rounded-lg border border-primary-container/30 bg-amber-deep/10 px-4 py-2.5 text-sm text-primary">
                     <Icon className="text-[18px]" name="visibility" />
-                    This is how others see your list — manage it from your dashboard.
+                    This is how others see your list — only goals marked Public are visible. Manage visibility from
+                    each goal's edit menu.
                   </div>
                 )}
 
