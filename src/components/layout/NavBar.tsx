@@ -8,6 +8,7 @@ const navItems = [
   { path: '/dashboard', label: 'Dashboard' },
   { path: '/active-goals', label: 'Active Goals' },
   { path: '/accomplishments', label: 'Accomplishments' },
+  { path: '/friends', label: 'Friends' },
   { path: '/explore', label: 'Explore Inspiration' },
 ]
 
