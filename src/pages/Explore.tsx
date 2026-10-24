@@ -39,7 +39,7 @@ export default function Explore() {
                 progress_activity
               </span>
             </div>
-          ) : profiles.filter((p) => (p.goals?.[0]?.count ?? 0) > 0).length === 0 ? (
+          ) : profiles.length === 0 ? (
             <div className="rounded-xl border border-dashed border-outline-variant/60 p-12 text-center">
               <Icon className="text-3xl text-on-surface-variant" name="explore" />
               <h2 className="mt-3 text-2xl font-semibold leading-8 tracking-tight text-on-surface">
@@ -51,11 +51,9 @@ export default function Explore() {
             </div>
           ) : (
             <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
-              {profiles
-                .filter((p) => (p.goals?.[0]?.count ?? 0) > 0)
-                .map((p) => (
-                  <ExploreCard key={p.id} profile={p} />
-                ))}
+              {profiles.map((p) => (
+                <ExploreCard key={p.id} profile={p} />
+              ))}
             </div>
           )}
         </div>
