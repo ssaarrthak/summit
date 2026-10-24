@@ -64,9 +64,9 @@ export function usePublicProfiles() {
     let cancelled = false
     const load = async () => {
       const { data, error: err } = await supabase
-        .from('profiles')
-        .select('*, goals(count)')
-        .eq('is_public', true)
+        .from('goals')
+        .select('*, profiles!inner(username, display_name, avatar_url, created_at)')
+        .eq('visibility', 'public')
         .order('created_at', { ascending: false })
       if (cancelled) return
       if (err) {
@@ -74,7 +74,24 @@ export function usePublicProfiles() {
         setLoading(false)
         return
       }
-      setProfiles((data ?? []) as PublicProfileWithCount[])
+      const rows = (data ?? []) as Array<GoalRow & { profiles: Profile }>
+      const map = new Map<string, PublicProfileWithCount>()
+      for (const row of rows) {
+        const existing = map.get(row.owner_id)
+        if (existing) {
+          existing.goals = [{ count: existing.goals[0].count + 1 }]
+        } else {
+          map.set(row.owner_id, {
+            id: row.owner_id,
+            username: row.profiles.username,
+            display_name: row.profiles.display_name,
+            avatar_url: row.profiles.avatar_url,
+            created_at: row.profiles.created_at,
+            goals: [{ count: 1 }],
+          })
+        }
+      }
+      setProfiles([...map.values()])
       setLoading(false)
     }
     load()
