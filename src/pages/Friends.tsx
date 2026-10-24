@@ -86,7 +86,7 @@ export default function Friends() {
               placeholder="Search explorers by username or name..."
               value={query}
             />
-            <Button className="flex-shrink-0 font-bold sm:w-36" disabled={searching || query.trim().length < 2}>
+            <Button className="flex-shrink-0 font-bold sm:w-36" type="submit" disabled={searching || query.trim().length < 2}>
               {searching ? 'Searching...' : 'Search'}
             </Button>
           </form>
